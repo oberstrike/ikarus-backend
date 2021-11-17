@@ -1,6 +1,6 @@
 package de.ma.ikarus.shared
 
-data class PagedList<T>(
+data class PagedList<T: Any>(
     val page: Int = 0,
     val pageCount: Int = 0,
     val content: List<T> = listOf()
@@ -8,7 +8,7 @@ data class PagedList<T>(
 
 
 
-fun<T, R> PagedList<T>.pagedMap( transform: (T) -> R): PagedList<R>{
+fun<T: Any, R: Any> PagedList<T>.pagedMap( transform: (T) -> R): PagedList<R>{
     val map = this.content.map(transform)
     return PagedList(this.page, this.pageCount, map)
 }

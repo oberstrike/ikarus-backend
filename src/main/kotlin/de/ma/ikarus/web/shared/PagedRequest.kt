@@ -4,6 +4,12 @@ import de.ma.ikarus.api.shared.PagedParams
 import javax.ws.rs.DefaultValue
 import javax.ws.rs.QueryParam
 
+@NotNullIfFieldsAreNotNull.List(
+    array = [NotNullIfFieldsAreNotNull(
+        field = "page",
+        fieldsToCheck = ["pageSize"]
+    )]
+)
 class PagedRequest {
     @DefaultValue("0")
     @QueryParam("page")

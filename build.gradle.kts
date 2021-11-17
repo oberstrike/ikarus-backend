@@ -1,10 +1,11 @@
+import org.jetbrains.kotlin.builtins.StandardNames.FqNames.annotation
 import org.jetbrains.kotlin.noarg.gradle.NoArgExtension
 
 plugins {
-    kotlin("jvm") version "1.5.21"
-    kotlin("plugin.allopen") version "1.5.21"
+    kotlin("jvm") version "1.6.0"
+    kotlin("plugin.allopen") version "1.6.0"
     id("io.quarkus")
-    id("org.jetbrains.kotlin.plugin.noarg") version "1.5.21"
+    id("org.jetbrains.kotlin.plugin.noarg") version "1.6.0"
 }
 
 repositories {
@@ -19,11 +20,13 @@ val quarkusPlatformVersion: String by project
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-noarg:1.5.21")
     implementation("io.quarkus:quarkus-jdbc-postgresql")
+    implementation("io.quarkus:quarkus-hibernate-validator")
     implementation("io.quarkus:quarkus-hibernate-orm-panache")
     implementation("io.quarkus:quarkus-hibernate-orm-panache-kotlin")
     implementation("io.quarkus:quarkus-resteasy-jackson")
     implementation(enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
 
+    implementation("com.aventrix.jnanoid:jnanoid:2.0.0")
     implementation("io.quarkus:quarkus-keycloak-authorization")
     implementation("io.quarkus:quarkus-smallrye-openapi")
     implementation("io.quarkus:quarkus-kotlin")
@@ -46,10 +49,14 @@ allOpen {
     annotation("javax.enterprise.context.ApplicationScoped")
     annotation("io.quarkus.test.junit.QuarkusTest")
     annotation("javax.persistence.Entity")
+    annotation("javax.persistence.MappedSuperclass")
+
 }
 
 configure<NoArgExtension> {
     annotation("javax.persistence.Entity")
+    annotation("javax.persistence.MappedSuperclass")
+
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {

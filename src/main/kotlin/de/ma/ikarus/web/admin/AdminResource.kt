@@ -1,7 +1,7 @@
 package de.ma.ikarus.web.admin
 
-import de.ma.ikarus.api.resources.GetResourcesUseCase
-import de.ma.ikarus.api.resources.ResourceName
+import de.ma.ikarus.api.resources.admin.GetResourcesUseCase
+import de.ma.ikarus.domain.resource.ResourceShow
 import de.ma.ikarus.shared.PagedList
 import de.ma.ikarus.web.shared.PagedRequest
 import de.ma.ikarus.web.shared.toPagedParams
@@ -23,6 +23,6 @@ class AdminResource(
     @Produces(MediaType.APPLICATION_JSON)
     fun getResources(
         @BeanParam pagedRequest: PagedRequest
-    ): PagedList<ResourceName> = getResourcesUseCase.invoke(pagedRequest.toPagedParams())
+    ): PagedList<ResourceShow> = getResourcesUseCase.invoke(pagedRequest.toPagedParams())
 
 }

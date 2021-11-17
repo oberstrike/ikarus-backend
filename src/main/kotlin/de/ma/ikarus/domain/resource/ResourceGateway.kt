@@ -11,13 +11,15 @@ interface ResourceGateway {
         sort: Sort = Sort.by(Sort.Direction.ASCENDING, "id"),
         user: User,
         params: PagedParams,
-    ): PagedList<Resource>
+    ): PagedList<ResourceShow>
 
-    fun saveResource(resource: Resource): Resource
+    fun createResource(resource: ResourceCreate): ResourceShow
 
     fun getResources(
         sort: Sort = Sort.by(Sort.Direction.ASCENDING, "id"),
         params: PagedParams
-    ): PagedList<Resource>
+    ): PagedList<ResourceShow>
+
+    fun update(resource: ResourceUpdate): Boolean
 
 }

@@ -1,15 +1,15 @@
 package de.ma.ikarus.persistence.resources
 
 import de.ma.ikarus.api.shared.PagedParams
-import de.ma.ikarus.domain.resource.Resource
-import de.ma.ikarus.domain.resource.ResourceGateway
+import de.ma.ikarus.domain.resource.*
 import de.ma.ikarus.domain.shared.Sort
 import de.ma.ikarus.domain.user.User
 import de.ma.ikarus.persistence.shared.toEntity
 import de.ma.ikarus.persistence.shared.toPagedList
-import de.ma.ikarus.persistence.shared.toResource
+import de.ma.ikarus.persistence.shared.toResourceShow
 import de.ma.ikarus.shared.PagedList
 import de.ma.ikarus.shared.pagedMap
+import org.bouncycastle.asn1.x500.style.RFC4519Style.description
 import javax.inject.Singleton
 
 @Singleton
@@ -21,18 +21,34 @@ class ResourceGatewayImpl(
         sort: Sort,
         user: User,
         params: PagedParams,
-    ): PagedList<Resource> {
-        return resourceRepository.findAll().toPagedList(params).pagedMap(ResourceEntity::toResource)
+    ): PagedList<ResourceShow> {
+        return resourceRepository.findAll().toPagedList(params).pagedMap(ResourceEntity::toResourceShow)
     }
 
-    override fun saveResource(resource: Resource): Resource {
-        resourceRepository.persist(resource.toEntity())
-        return resource
+    override fun createResource(resource: ResourceCreate): ResourceShow {
+        val entity = resource.toEntity()
+        resourceRepository.persistAndFlush(entity)
+        return entity.toResourceShow()
     }
 
-    override fun getResources(sort: Sort, params: PagedParams): PagedList<Resource> {
-        return resourceRepository.findAll().toPagedList(params).pagedMap(ResourceEntity::toResource)
+    override fun getResources(sort: Sort, params: PagedParams): PagedList<ResourceShow> {
+        return resourceRepository.findAll().toPagedList(params).pagedMap(ResourceEntity::toResourceShow)
     }
 
+    override fun update(resource: ResourceUpdate): Boolean {
+        val saved = resourceRepository.findById(resource.id)?: return false
+
+        if(resource.version != saved.version) {
+            return false
+        }
+
+        saved.apply {
+            name = resource.name
+            content = resource.content
+        }
+
+        saved.persist()
+        return true
+    }
 
 }
