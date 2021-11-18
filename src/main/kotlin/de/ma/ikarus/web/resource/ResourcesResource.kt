@@ -1,13 +1,14 @@
 package de.ma.ikarus.web.resource
 
-import de.ma.ikarus.api.resources.data.ResourceCreateDTO
-import de.ma.ikarus.api.resources.data.ResourceUpdateDTO
+import de.ma.ikarus.persistence.shared.data.ResourceCreateDTO
+import de.ma.ikarus.persistence.shared.data.ResourceUpdateDTO
 import de.ma.ikarus.api.resources.user.CreateResourceByUserUseCase
 import de.ma.ikarus.api.resources.user.GetResourcesByUserUseCase
 import de.ma.ikarus.api.resources.user.UpdateResourceUseCase
 import de.ma.ikarus.api.user.UserDTO
 import de.ma.ikarus.domain.resource.ResourceShow
 import de.ma.ikarus.shared.PagedList
+import de.ma.ikarus.web.resource.dtos.ResourceCreateForm
 import de.ma.ikarus.web.shared.PagedRequest
 import de.ma.ikarus.web.shared.toPagedParams
 import io.quarkus.security.identity.SecurityIdentity
@@ -41,7 +42,7 @@ class ResourcesResource(
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
-    fun createResource(resourceDTO: ResourceCreateDTO) = withUser(securityIdentity) { user ->
+    fun createResource(resourceDTO: ResourceCreateForm) = withUser(securityIdentity) { user ->
         val result = createResourceByUserUseCase(resourceDTO, user)
         result.getOrNull() ?: throw BadRequestException(result.exceptionOrNull()?.message ?: "No resource created")
     }

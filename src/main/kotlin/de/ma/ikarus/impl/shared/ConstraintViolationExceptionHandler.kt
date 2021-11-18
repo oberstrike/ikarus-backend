@@ -1,4 +1,4 @@
-package de.ma.ikarus.web.shared
+package de.ma.ikarus.impl.shared
 
 import javax.ws.rs.BadRequestException
 import javax.ws.rs.core.Response

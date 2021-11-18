@@ -1,4 +1,4 @@
-package de.ma.ikarus.api.resources.data
+package de.ma.ikarus.persistence.shared.data
 
 import de.ma.ikarus.domain.resource.Resource
 
