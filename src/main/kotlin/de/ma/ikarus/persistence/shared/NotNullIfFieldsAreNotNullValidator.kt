@@ -1,4 +1,4 @@
-package de.ma.ikarus.web.shared
+package de.ma.ikarus.persistence.shared
 
 import javax.enterprise.context.ApplicationScoped
 import javax.validation.ConstraintValidator
@@ -30,9 +30,9 @@ class NotNullIfFieldsAreNotNullValidator : ConstraintValidator<NotNullIfFieldsAr
             context.disableDefaultConstraintViolation()
             context.buildConstraintViolationWithTemplate(context.defaultConstraintMessageTemplate)
                 .addPropertyNode(field)
-
+            return false
         }
 
-        return false;
+        return true;
     }
 }

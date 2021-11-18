@@ -1,6 +1,6 @@
 package de.ma.ikarus.persistence.shared
 
-import de.ma.ikarus.api.shared.PagedParams
+import de.ma.ikarus.shared.PagedParams
 import de.ma.ikarus.shared.PagedList
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheQuery
 import io.quarkus.panache.common.Page

@@ -1,7 +1,10 @@
 package de.ma.ikarus.persistence.resources
 
-import de.ma.ikarus.api.shared.PagedParams
-import de.ma.ikarus.domain.resource.*
+import de.ma.ikarus.shared.PagedParams
+import de.ma.ikarus.domain.resource.ResourceCreate
+import de.ma.ikarus.domain.resource.ResourceGateway
+import de.ma.ikarus.domain.resource.ResourceShow
+import de.ma.ikarus.domain.resource.ResourceUpdate
 import de.ma.ikarus.domain.shared.Sort
 import de.ma.ikarus.domain.user.User
 import de.ma.ikarus.persistence.shared.toEntity
@@ -9,7 +12,6 @@ import de.ma.ikarus.persistence.shared.toPagedList
 import de.ma.ikarus.persistence.shared.toResourceShow
 import de.ma.ikarus.shared.PagedList
 import de.ma.ikarus.shared.pagedMap
-import org.bouncycastle.asn1.x500.style.RFC4519Style.description
 import javax.inject.Singleton
 
 @Singleton

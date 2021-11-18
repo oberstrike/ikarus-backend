@@ -1,11 +1,11 @@
 package de.ma.ikarus.impl.resources.user
 
 import de.ma.ikarus.api.resources.user.GetResourcesByUserUseCase
-import de.ma.ikarus.api.shared.PagedParams
 import de.ma.ikarus.api.user.UserDTO
 import de.ma.ikarus.domain.resource.ResourceGateway
 import de.ma.ikarus.domain.resource.ResourceShow
 import de.ma.ikarus.domain.user.User
+import de.ma.ikarus.shared.PagedParams
 import de.ma.ikarus.shared.PagedList
 import javax.enterprise.context.ApplicationScoped
 import javax.ws.rs.NotFoundException

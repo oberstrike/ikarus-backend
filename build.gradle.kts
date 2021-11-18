@@ -2,10 +2,10 @@ import org.jetbrains.kotlin.builtins.StandardNames.FqNames.annotation
 import org.jetbrains.kotlin.noarg.gradle.NoArgExtension
 
 plugins {
-    kotlin("jvm") version "1.6.0"
-    kotlin("plugin.allopen") version "1.6.0"
-    id("io.quarkus")
-    id("org.jetbrains.kotlin.plugin.noarg") version "1.6.0"
+        kotlin("jvm") version "1.5.21"
+        kotlin("plugin.allopen") version "1.5.21"
+        id("io.quarkus")
+        id("org.jetbrains.kotlin.plugin.noarg") version "1.5.21"
 }
 
 repositories {

@@ -1,6 +1,6 @@
 package de.ma.ikarus.domain.resource
 
-import de.ma.ikarus.api.shared.PagedParams
+import de.ma.ikarus.shared.PagedParams
 import de.ma.ikarus.domain.shared.Sort
 import de.ma.ikarus.domain.user.User
 import de.ma.ikarus.shared.PagedList

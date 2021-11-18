@@ -1,7 +1,7 @@
 package de.ma.ikarus.impl.resources.admin
 
 import de.ma.ikarus.api.resources.admin.GetResourcesUseCase
-import de.ma.ikarus.api.shared.PagedParams
+import de.ma.ikarus.shared.PagedParams
 import de.ma.ikarus.domain.resource.ResourceGateway
 import de.ma.ikarus.domain.resource.ResourceShow
 import de.ma.ikarus.shared.PagedList

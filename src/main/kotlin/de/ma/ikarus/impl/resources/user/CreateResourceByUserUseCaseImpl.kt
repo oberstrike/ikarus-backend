@@ -6,19 +6,22 @@ import de.ma.ikarus.domain.resource.ResourceCreate
 import de.ma.ikarus.domain.resource.ResourceGateway
 import de.ma.ikarus.domain.resource.ResourceShow
 import de.ma.ikarus.domain.user.UserGateway
+import de.ma.ikarus.impl.shared.ValidatedUseCase
 import javax.enterprise.context.ApplicationScoped
 
 @ApplicationScoped
 class CreateResourceByUserUseCaseImpl(
     private val resourceGateway: ResourceGateway,
-    private val userGateway: UserGateway
-
+    private val userGateway: UserGateway,
+    private val validatedUseCase: ValidatedUseCase
 ) : CreateResourceByUserUseCase {
 
-    override fun invoke(resource: ResourceCreate, user: UserDTO): ResourceShow {
+    override fun invoke(
+        resource: ResourceCreate,
+        user: UserDTO
+    ): Result<ResourceShow> = validatedUseCase.withValidated(resource) {
         userGateway.getUserByName(user.name)
-
-        return resourceGateway.createResource(
+        return@withValidated resourceGateway.createResource(
             resource
         )
     }

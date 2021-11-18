@@ -1,15 +1,9 @@
 package de.ma.ikarus.web.shared
 
-import de.ma.ikarus.api.shared.PagedParams
+import de.ma.ikarus.shared.PagedParams
 import javax.ws.rs.DefaultValue
 import javax.ws.rs.QueryParam
 
-@NotNullIfFieldsAreNotNull.List(
-    array = [NotNullIfFieldsAreNotNull(
-        field = "page",
-        fieldsToCheck = ["pageSize"]
-    )]
-)
 class PagedRequest {
     @DefaultValue("0")
     @QueryParam("page")

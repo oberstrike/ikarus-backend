@@ -1,4 +1,4 @@
-package de.ma.ikarus.api.shared
+package de.ma.ikarus.shared
 
 data class PagedParams(
     val page: Int = 0,

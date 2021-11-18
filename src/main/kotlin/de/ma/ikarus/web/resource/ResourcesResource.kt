@@ -15,7 +15,6 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag
 import org.eclipse.microprofile.openapi.annotations.tags.Tags
 import javax.transaction.Transactional
 import javax.validation.Valid
-import javax.validation.Validator
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
@@ -26,8 +25,7 @@ class ResourcesResource(
     private val getResourcesByUserUseCase: GetResourcesByUserUseCase,
     private val createResourceByUserUseCase: CreateResourceByUserUseCase,
     private val updateResourceUseCase: UpdateResourceUseCase,
-    private val securityIdentity: SecurityIdentity,
-    private val validator: Validator
+    private val securityIdentity: SecurityIdentity
 ) {
 
     @GET
@@ -44,11 +42,13 @@ class ResourcesResource(
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
     fun createResource(resourceDTO: ResourceCreateDTO) = withUser(securityIdentity) { user ->
-        createResourceByUserUseCase(resourceDTO, user)
+        val result = createResourceByUserUseCase(resourceDTO, user)
+        result.getOrNull() ?: throw BadRequestException(result.exceptionOrNull()?.message ?: "No resource created")
     }
 
     @PUT
     @Transactional
+    @Produces(MediaType.APPLICATION_JSON)
     fun update(resourceUpdateDTO: ResourceUpdateDTO): Response {
         val result = updateResourceUseCase(resourceUpdateDTO)
         return if (result.isSuccess) Response.status(Response.Status.OK).build()
