@@ -1,6 +1,6 @@
 package de.ma.ikarus.domain.shared
 
-class Sort private constructor(
+data class Sort(
     val columns: Array<out String>,
     val direction: Direction
 ) {
@@ -17,5 +17,23 @@ class Sort private constructor(
     sealed class Direction {
         object ASCENDING : Direction()
         object DESCENDING : Direction()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Sort
+
+        if (!columns.contentEquals(other.columns)) return false
+        if (direction != other.direction) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = columns.contentHashCode()
+        result = 31 * result + direction.hashCode()
+        return result
     }
 }

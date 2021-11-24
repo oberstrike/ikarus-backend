@@ -1,7 +1,6 @@
 package de.ma.ikarus.impl.resources.user
 
 import de.ma.ikarus.api.resources.user.GetResourcesByUserUseCase
-import de.ma.ikarus.api.user.UserDTO
 import de.ma.ikarus.domain.resource.ResourceGateway
 import de.ma.ikarus.domain.resource.ResourceShow
 import de.ma.ikarus.domain.user.User
@@ -15,8 +14,13 @@ class GetResourcesByUserUseCaseImpl(
     private val resourceGateway: ResourceGateway
 ) : GetResourcesByUserUseCase {
 
-    override fun invoke(user: UserDTO, pagedParams: PagedParams): Result<PagedList<ResourceShow>> {
-        val resources = resourceGateway.getResourcesByUser(user = User(user.name), params = pagedParams)
+    override fun invoke(user: User, pagedParams: PagedParams): Result<PagedList<ResourceShow>> {
+
+        val resources = resourceGateway.getResourcesByUser(
+            user = user,
+            params = pagedParams
+        )
+
         return if (resources.content.isEmpty()) {
             Result.failure(NotFoundException("No resources found"))
         } else {

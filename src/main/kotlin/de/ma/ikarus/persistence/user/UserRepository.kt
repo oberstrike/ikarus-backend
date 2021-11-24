@@ -5,8 +5,8 @@ import javax.enterprise.context.ApplicationScoped
 
 @ApplicationScoped
 class UserRepository : PanacheRepository<UserEntity> {
-    fun findByName(name: String): UserEntity? {
-        return find("name", name).firstResult()
+    fun findByUserId(userId: String): UserEntity? {
+        return find("userId", userId).firstResult()
     }
 
     fun save(user: UserEntity): UserEntity {

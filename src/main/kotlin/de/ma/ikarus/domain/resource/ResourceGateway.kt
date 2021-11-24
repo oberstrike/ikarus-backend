@@ -7,11 +7,12 @@ import de.ma.ikarus.shared.PagedList
 
 
 interface ResourceGateway {
+
     fun getResourcesByUser(
-        sort: Sort = Sort.by(Sort.Direction.ASCENDING, "id"),
         user: User,
         params: PagedParams,
-    ): PagedList<ResourceShow>
+        sort: Sort = Sort.by(Sort.Direction.ASCENDING, "id"),
+        ): PagedList<ResourceShow>
 
     fun createResource(resource: ResourceCreate): ResourceShow
 

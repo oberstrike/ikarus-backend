@@ -3,23 +3,35 @@ package de.ma.ikarus.persistence.resources
 import de.ma.ikarus.domain.resource.Resource
 import de.ma.ikarus.persistence.shared.AbstractNanoIdEntity
 import de.ma.ikarus.persistence.user.UserEntity
-import io.quarkus.hibernate.orm.panache.PanacheEntity
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase
+import org.hibernate.Hibernate
 import javax.persistence.*
 
 
 @Table(name = "resource")
 @Entity(name = "resource")
-class ResourceEntity : Resource,  AbstractNanoIdEntity() {
+data class ResourceEntity(
+    override var content: String = "",
+    override var name: String = "",
+) : AbstractNanoIdEntity(), Resource {
 
     @JoinColumn
     @ManyToOne(fetch = FetchType.LAZY)
     lateinit var user: UserEntity
 
-    override lateinit var content: String
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || Hibernate.getClass(this) != Hibernate.getClass(other)) return false
+        other as ResourceEntity
 
-    override lateinit var name: String
+        return id != null && id == other.id
+    }
 
+    override fun hashCode(): Int = javaClass.hashCode()
+
+    @Override
+    override fun toString(): String {
+        return this::class.simpleName + "(id = $id , version = $version )"
+    }
 
 }
 

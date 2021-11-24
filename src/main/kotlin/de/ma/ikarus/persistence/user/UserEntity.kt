@@ -1,17 +1,23 @@
 package de.ma.ikarus.persistence.user
 
+import de.ma.ikarus.domain.user.User
 import de.ma.ikarus.persistence.resources.ResourceEntity
-import io.quarkus.hibernate.orm.panache.kotlin.PanacheEntity
-import java.util.*
+import de.ma.ikarus.persistence.shared.AbstractNanoIdEntity
 import javax.persistence.*
 
-@Entity(name = "resource_user")
+@Table(name = "ikarus_user")
+@Entity(name = "ikarus_user")
 class UserEntity(
-    var name: String? = null
-): PanacheEntity(){
+    override var userId: String
+):   AbstractNanoIdEntity(), User{
 
     @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], fetch = FetchType.LAZY, orphanRemoval = true)
     var resources: MutableSet<ResourceEntity> = mutableSetOf()
+
+    fun addResource(resource: ResourceEntity){
+        resources.add(resource)
+        resource.user = this
+    }
 
 
 }

@@ -7,7 +7,7 @@ import de.ma.ikarus.domain.resource.ResourceShow
 import de.ma.ikarus.domain.resource.ResourceUpdate
 import de.ma.ikarus.domain.shared.Sort
 import de.ma.ikarus.domain.user.User
-import de.ma.ikarus.persistence.shared.toEntity
+import de.ma.ikarus.persistence.shared.createToEntity
 import de.ma.ikarus.persistence.shared.toPagedList
 import de.ma.ikarus.persistence.shared.toResourceShow
 import de.ma.ikarus.shared.PagedList
@@ -20,17 +20,16 @@ class ResourceGatewayImpl(
 ) : ResourceGateway {
 
     override fun getResourcesByUser(
-        sort: Sort,
         user: User,
         params: PagedParams,
+        sort: Sort,
     ): PagedList<ResourceShow> {
         return resourceRepository.findAll().toPagedList(params).pagedMap(ResourceEntity::toResourceShow)
     }
 
     override fun createResource(resource: ResourceCreate): ResourceShow {
-        val entity = resource.toEntity()
-        resourceRepository.persistAndFlush(entity)
-        return entity.toResourceShow()
+        val entity = resource.createToEntity()
+        return resourceRepository.save(entity).toResourceShow()
     }
 
     override fun getResources(sort: Sort, params: PagedParams): PagedList<ResourceShow> {
@@ -38,9 +37,9 @@ class ResourceGatewayImpl(
     }
 
     override fun update(resource: ResourceUpdate): Boolean {
-        val saved = resourceRepository.findById(resource.id)?: return false
+        val saved = resourceRepository.findById(resource.id) ?: return false
 
-        if(resource.version != saved.version) {
+        if (resource.version != saved.version) {
             return false
         }
 

@@ -16,6 +16,8 @@ repositories {
 val quarkusPlatformGroupId: String by project
 val quarkusPlatformArtifactId: String by project
 val quarkusPlatformVersion: String by project
+val mockkVersion = "1.12.1"
+val junitJupiterVersion = "5.7.0"
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-noarg:1.5.21")
@@ -32,8 +34,18 @@ dependencies {
     implementation("io.quarkus:quarkus-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("io.quarkus:quarkus-arc")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.7.0")
     testImplementation("io.quarkus:quarkus-junit5")
     testImplementation("io.rest-assured:rest-assured")
+    testImplementation("io.mockk:mockk:${mockkVersion}")
+    testImplementation("org.amshove.kluent:kluent:1.68")
+    testImplementation ("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
+    testImplementation ("org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion")
+    testRuntimeOnly ("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
+    testImplementation ("org.testcontainers:testcontainers:1.16.2")
+    testImplementation ("org.testcontainers:junit-jupiter:1.16.2")
+    testImplementation ("org.testcontainers:postgresql:1.16.2")
+
 }
 
 group = "de.ma.ikarus"

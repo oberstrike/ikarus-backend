@@ -1,17 +1,21 @@
 package de.ma.ikarus.web.resource
 
-import de.ma.ikarus.persistence.shared.data.ResourceCreateDTO
-import de.ma.ikarus.persistence.shared.data.ResourceUpdateDTO
 import de.ma.ikarus.api.resources.user.CreateResourceByUserUseCase
 import de.ma.ikarus.api.resources.user.GetResourcesByUserUseCase
 import de.ma.ikarus.api.resources.user.UpdateResourceUseCase
-import de.ma.ikarus.api.user.UserDTO
 import de.ma.ikarus.domain.resource.ResourceShow
 import de.ma.ikarus.shared.PagedList
 import de.ma.ikarus.web.resource.dtos.ResourceCreateForm
+import de.ma.ikarus.web.resource.dtos.ResourceUpdateForm
 import de.ma.ikarus.web.shared.PagedRequest
 import de.ma.ikarus.web.shared.toPagedParams
+import de.ma.ikarus.web.user.UserService
+import de.ma.ikarus.web.user.UserServiceImpl
+import io.quarkus.security.Authenticated
 import io.quarkus.security.identity.SecurityIdentity
+import org.eclipse.microprofile.openapi.annotations.Operation
+import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement
+import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements
 import org.eclipse.microprofile.openapi.annotations.tags.Tag
 import org.eclipse.microprofile.openapi.annotations.tags.Tags
 import javax.transaction.Transactional
@@ -26,8 +30,9 @@ class ResourcesResource(
     private val getResourcesByUserUseCase: GetResourcesByUserUseCase,
     private val createResourceByUserUseCase: CreateResourceByUserUseCase,
     private val updateResourceUseCase: UpdateResourceUseCase,
-    private val securityIdentity: SecurityIdentity
-) {
+    private val securityIdentity: SecurityIdentity,
+    userServiceImpl: UserServiceImpl
+) : UserService by userServiceImpl {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -42,6 +47,16 @@ class ResourcesResource(
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
+    @Operation(
+        summary = "Add a new resource",
+        operationId = "addResource"
+    )
+    @SecurityRequirements(
+        value = [
+            SecurityRequirement(name = "bearerAuth")
+        ]
+    )
+    @Authenticated
     fun createResource(resourceDTO: ResourceCreateForm) = withUser(securityIdentity) { user ->
         val result = createResourceByUserUseCase(resourceDTO, user)
         result.getOrNull() ?: throw BadRequestException(result.exceptionOrNull()?.message ?: "No resource created")
@@ -50,16 +65,12 @@ class ResourcesResource(
     @PUT
     @Transactional
     @Produces(MediaType.APPLICATION_JSON)
-    fun update(resourceUpdateDTO: ResourceUpdateDTO): Response {
-        val result = updateResourceUseCase(resourceUpdateDTO)
+    fun update(resourceUpdateForm: ResourceUpdateForm): Response {
+        val result = updateResourceUseCase(resourceUpdateForm)
         return if (result.isSuccess) Response.status(Response.Status.OK).build()
         else Response.status(Response.Status.BAD_REQUEST)
             .entity(result.exceptionOrNull()?.message ?: "There was an error").build()
 
-    }
-
-    private fun <T> withUser(securityIdentity: SecurityIdentity, block: (UserDTO) -> T): T {
-        return block(UserDTO("oberstrike"))
     }
 
 
