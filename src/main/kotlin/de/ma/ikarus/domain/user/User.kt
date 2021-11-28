@@ -1,5 +1,6 @@
 package de.ma.ikarus.domain.user
 
-interface User {
+interface  User {
+
     val userId: String
 }

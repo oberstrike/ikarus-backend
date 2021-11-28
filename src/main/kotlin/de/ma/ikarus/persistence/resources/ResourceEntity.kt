@@ -23,14 +23,14 @@ data class ResourceEntity(
         if (other == null || Hibernate.getClass(this) != Hibernate.getClass(other)) return false
         other as ResourceEntity
 
-        return id != null && id == other.id
+        return id == other.id
     }
 
     override fun hashCode(): Int = javaClass.hashCode()
 
-    @Override
+
     override fun toString(): String {
-        return this::class.simpleName + "(id = $id , version = $version )"
+        return "ResourceEntity(id=$id, name='$name', content='$content')"
     }
 
 }

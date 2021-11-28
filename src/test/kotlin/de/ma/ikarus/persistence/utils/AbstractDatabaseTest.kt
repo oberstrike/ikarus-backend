@@ -2,36 +2,46 @@ package de.ma.ikarus.persistence.utils
 
 import de.ma.ikarus.domain.resource.Resource
 import de.ma.ikarus.domain.user.User
-import de.ma.ikarus.persistence.resources.DatabaseTestResource
 import de.ma.ikarus.persistence.resources.ResourceEntity
-import de.ma.ikarus.persistence.resources.TransactionalQuarkusTest
 import de.ma.ikarus.persistence.user.UserEntity
+import io.github.serpro69.kfaker.Faker
 import io.quarkus.test.common.QuarkusTestResource
 import java.util.*
-import java.util.UUID.randomUUID
-import javax.inject.Inject
 import javax.persistence.EntityManager
-import javax.persistence.PersistenceUnit
 import javax.transaction.Transactional
 
 
+val faker = Faker()
+
 @QuarkusTestResource(DatabaseTestResource::class)
-abstract class AbstractRepositoryTest {
+abstract class AbstractDatabaseTest {
 
     abstract var entityManager: EntityManager
 
     private fun randomUUID() = UUID.randomUUID().toString()
 
-    protected fun resourceEntity(): ResourceEntity {
-        return ResourceEntity("content", "name")
+    protected fun resourceEntities(count: Int): List<ResourceEntity> {
+        return (1..count).map {
+            resourceEntity()
+        }
     }
 
-    fun withUser(resource: ResourceEntity, block: (User) -> Unit) {
+    protected fun resourceEntity(): ResourceEntity {
+        return faker.randomProvider.randomClassInstance() {
+
+        }
+    }
+
+    fun withUser(block: (UserEntity) -> Unit) {
+        return withUser(emptyList(), block)
+    }
+
+    fun withUser(resource: ResourceEntity, block: (UserEntity) -> Unit) {
         return withUser(listOf(resource), block)
     }
 
     @Transactional
-    fun withUser(resources: List<ResourceEntity>, block: (User) -> Unit) {
+    fun withUser(resources: List<ResourceEntity>, block: (UserEntity) -> Unit) {
         val user = UserEntity(randomUUID())
 
         resources.forEach {
@@ -50,5 +60,7 @@ abstract class AbstractRepositoryTest {
         block(resource)
     }
 
+
+    class UserWithResources(val user: User, val resources: List<Resource>)
 
 }

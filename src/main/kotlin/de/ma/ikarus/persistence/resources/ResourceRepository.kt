@@ -1,5 +1,6 @@
 package de.ma.ikarus.persistence.resources
 
+import de.ma.ikarus.domain.resource.Resource
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheRepositoryBase
 import io.quarkus.panache.common.Parameters
 import javax.enterprise.context.ApplicationScoped
@@ -16,6 +17,8 @@ class ResourceRepository : PanacheRepositoryBase<ResourceEntity, String> {
         flush()
         return entity
     }
+
+
 
 
 }

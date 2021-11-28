@@ -1,4 +1,4 @@
-package de.ma.ikarus.persistence.resources
+package de.ma.ikarus.persistence.utils
 
 import com.github.dockerjava.api.model.ExposedPort
 import com.github.dockerjava.api.model.HostConfig

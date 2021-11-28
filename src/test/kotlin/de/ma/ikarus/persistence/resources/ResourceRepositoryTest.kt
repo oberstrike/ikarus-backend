@@ -1,7 +1,6 @@
 package de.ma.ikarus.persistence.resources
 
-import de.ma.ikarus.persistence.utils.AbstractRepositoryTest
-import io.quarkus.test.junit.QuarkusTest
+import de.ma.ikarus.persistence.utils.AbstractDatabaseTest
 import org.amshove.kluent.`should be`
 import org.amshove.kluent.`should not be`
 import org.junit.jupiter.api.BeforeEach
@@ -9,11 +8,10 @@ import org.junit.jupiter.api.Test
 import javax.inject.Inject
 import javax.persistence.EntityManager
 import javax.persistence.PersistenceUnit
-import javax.transaction.Transactional
 
 
 @TransactionalQuarkusTest
-class ResourceRepositoryTest : AbstractRepositoryTest() {
+class ResourceRepositoryTest : AbstractDatabaseTest() {
 
     @PersistenceUnit
     override lateinit var entityManager: EntityManager
@@ -36,9 +34,20 @@ class ResourceRepositoryTest : AbstractRepositoryTest() {
     }
 
     @Test
-    fun `saves a entity to the database`() = withResource { entity ->
+    fun `saves a resource to the database`() = withResource { entity ->
         entity.id `should not be` null
         val persisted = resourceRepository.findById(entity.id!!)
         persisted `should not be` null
     }
+
+    @Test
+    fun `saves a resource to the database and delete it by id`() = withResource { entity ->
+        entity.id `should not be` null
+        resourceRepository.deleteById(entity.id!!)
+        val persisted = resourceRepository.findById(entity.id!!)
+        persisted `should be` null
+    }
+
+
+
 }

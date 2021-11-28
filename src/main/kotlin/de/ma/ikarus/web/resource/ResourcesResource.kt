@@ -22,7 +22,6 @@ import javax.transaction.Transactional
 import javax.validation.Valid
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
-import javax.ws.rs.core.Response
 
 @Path("/api/resources")
 @Tags(Tag(name = "Resource", description = ""))
@@ -65,12 +64,15 @@ class ResourcesResource(
     @PUT
     @Transactional
     @Produces(MediaType.APPLICATION_JSON)
-    fun update(resourceUpdateForm: ResourceUpdateForm): Response {
-        val result = updateResourceUseCase(resourceUpdateForm)
-        return if (result.isSuccess) Response.status(Response.Status.OK).build()
-        else Response.status(Response.Status.BAD_REQUEST)
-            .entity(result.exceptionOrNull()?.message ?: "There was an error").build()
-
+    @SecurityRequirements(
+        value = [
+            SecurityRequirement(name = "bearerAuth")
+        ]
+    )
+    @Authenticated
+    fun update(resourceUpdateForm: ResourceUpdateForm): ResourceShow = withUser(securityIdentity) { user ->
+        val result = updateResourceUseCase(resourceUpdateForm, user)
+        result.getOrNull() ?: throw result.exceptionOrNull() ?: throw BadRequestException("update failed")
     }
 
 

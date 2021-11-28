@@ -1,4 +1,4 @@
-package de.ma.ikarus.impl.resources.user
+package de.ma.ikarus.impl.resources
 
 import de.ma.ikarus.api.resources.user.GetResourcesByUserUseCase
 import de.ma.ikarus.domain.resource.ResourceGateway

@@ -2,6 +2,7 @@ package de.ma.ikarus.impl.resources.user
 
 import de.ma.ikarus.domain.resource.ResourceGateway
 import de.ma.ikarus.domain.user.UserGateway
+import de.ma.ikarus.impl.resources.CreateResourceByUserUseCaseImpl
 import de.ma.ikarus.impl.shared.ValidatedUseCase
 import de.ma.ikarus.persistence.shared.data.ResourceCreateDTO
 import io.mockk.mockk

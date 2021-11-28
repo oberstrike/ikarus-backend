@@ -21,6 +21,6 @@ interface ResourceGateway {
         params: PagedParams
     ): PagedList<ResourceShow>
 
-    fun update(resource: ResourceUpdate): Boolean
+    fun update(resource: ResourceUpdate): ResourceShow
 
 }
