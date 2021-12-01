@@ -30,8 +30,8 @@ class CreateResourceByUserUseCaseImpl(
 
             return@withValidated userGateway.addResourceToUser(
                 user,
-                persistedResource.showToEntity()
-            ).toShowDTO()
+                persistedResource
+            )
         }
     }
 }

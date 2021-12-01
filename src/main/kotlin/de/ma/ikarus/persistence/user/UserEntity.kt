@@ -2,7 +2,7 @@ package de.ma.ikarus.persistence.user
 
 import de.ma.ikarus.domain.user.User
 import de.ma.ikarus.persistence.resources.ResourceEntity
-import de.ma.ikarus.persistence.shared.AbstractNanoIdEntity
+import de.ma.ikarus.persistence.shared.nanoid.AbstractNanoIdEntity
 import javax.persistence.*
 
 @Table(name = "ikarus_user")

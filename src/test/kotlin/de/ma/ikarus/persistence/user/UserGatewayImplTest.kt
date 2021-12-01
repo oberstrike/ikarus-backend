@@ -1,13 +1,15 @@
 package de.ma.ikarus.persistence.user
 
 import de.ma.ikarus.domain.user.UserGateway
+import de.ma.ikarus.impl.utils.resourceDelete
+import de.ma.ikarus.persistence.resources.ResourceEntity
 import de.ma.ikarus.persistence.resources.TransactionalQuarkusTest
 import de.ma.ikarus.persistence.shared.data.ResourceUpdateDTO
 import de.ma.ikarus.persistence.utils.AbstractDatabaseTest
+import org.amshove.kluent.`should not be`
 import org.amshove.kluent.shouldBe
 import org.junit.jupiter.api.Test
 
-import org.junit.jupiter.api.Assertions.*
 import javax.inject.Inject
 import javax.persistence.EntityManager
 
@@ -50,6 +52,22 @@ class UserGatewayImplTest : AbstractDatabaseTest() {
 
             allowedToUpdate shouldBe false
         }
+    }
+
+    @Test
+    fun `registers a resource and delete it`() = withUser(resourceEntity()) {
+        val resourceEntity = it.resources.first()
+        val resourceDelete = resourceDelete(resourceEntity.id!!, resourceEntity.version)
+
+        userGateway.removeResourceFromUser(it, resourceDelete)
+
+
+        val userEntity = entityManager.find(UserEntity::class.java, it.id)
+
+        userEntity.resources.size shouldBe 0
+
+        entityManager.find(ResourceEntity::class.java, resourceEntity.id) `should not be` null
+
     }
 
 

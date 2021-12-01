@@ -3,6 +3,7 @@ package de.ma.ikarus.impl.shared
 import de.ma.ikarus.domain.resource.Resource
 import de.ma.ikarus.domain.resource.ResourceCreate
 import de.ma.ikarus.domain.resource.ResourceShow
+import de.ma.ikarus.domain.shared.NanoId
 import de.ma.ikarus.persistence.shared.data.ResourceCreateDTO
 import de.ma.ikarus.persistence.shared.data.ResourceShowDTO
 
@@ -13,7 +14,7 @@ fun ResourceCreate.toDTO(): ResourceCreateDTO {
     )
 }
 
-fun Resource.toShowDTO(): ResourceShow {
+fun Resource<NanoId>.toShowDTO(): ResourceShow {
     return ResourceShowDTO(
         content = content,
         name = name,

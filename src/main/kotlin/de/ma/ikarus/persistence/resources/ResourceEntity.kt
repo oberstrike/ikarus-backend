@@ -1,7 +1,9 @@
 package de.ma.ikarus.persistence.resources
 
 import de.ma.ikarus.domain.resource.Resource
-import de.ma.ikarus.persistence.shared.AbstractNanoIdEntity
+import de.ma.ikarus.domain.shared.NanoId
+import de.ma.ikarus.persistence.shared.nanoid.AbstractNanoIdEntity
+import de.ma.ikarus.persistence.shared.nanoid.NanoIdEntity
 import de.ma.ikarus.persistence.user.UserEntity
 import org.hibernate.Hibernate
 import javax.persistence.*
@@ -12,11 +14,11 @@ import javax.persistence.*
 data class ResourceEntity(
     override var content: String = "",
     override var name: String = "",
-) : AbstractNanoIdEntity(), Resource {
+) : AbstractNanoIdEntity(), Resource<NanoIdEntity> {
 
     @JoinColumn
     @ManyToOne(fetch = FetchType.LAZY)
-    lateinit var user: UserEntity
+     var user: UserEntity? = null
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

@@ -1,12 +1,13 @@
 package de.ma.ikarus.persistence.resources
 
-import de.ma.ikarus.domain.resource.Resource
+import de.ma.ikarus.domain.shared.NanoId
+import de.ma.ikarus.persistence.shared.nanoid.NanoIdEntity
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheRepositoryBase
 import io.quarkus.panache.common.Parameters
 import javax.enterprise.context.ApplicationScoped
 
 @ApplicationScoped
-class ResourceRepository : PanacheRepositoryBase<ResourceEntity, String> {
+class ResourceRepository : PanacheRepositoryBase<ResourceEntity, NanoId> {
 
     fun findByUser(userId: String): List<ResourceEntity> {
         return find("user.userId = :userId", Parameters.with("userId", userId)).list()

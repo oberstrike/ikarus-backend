@@ -24,7 +24,7 @@ class UpdateResourceUseCaseImpl(
             } else {
                 throw NotAllowedToUpdateException(
                     userId = user.userId,
-                    resourceId = resource.id
+                    resourceId = resource.id.nanoId
                 )
             }
         } catch (e: Exception) {

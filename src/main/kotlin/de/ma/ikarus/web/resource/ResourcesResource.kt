@@ -1,11 +1,13 @@
 package de.ma.ikarus.web.resource
 
 import de.ma.ikarus.api.resources.user.CreateResourceByUserUseCase
+import de.ma.ikarus.api.resources.user.DeleteResourceUseCase
 import de.ma.ikarus.api.resources.user.GetResourcesByUserUseCase
 import de.ma.ikarus.api.resources.user.UpdateResourceUseCase
 import de.ma.ikarus.domain.resource.ResourceShow
 import de.ma.ikarus.shared.PagedList
 import de.ma.ikarus.web.resource.dtos.ResourceCreateForm
+import de.ma.ikarus.web.resource.dtos.ResourceDeleteForm
 import de.ma.ikarus.web.resource.dtos.ResourceUpdateForm
 import de.ma.ikarus.web.shared.PagedRequest
 import de.ma.ikarus.web.shared.toPagedParams
@@ -30,11 +32,18 @@ class ResourcesResource(
     private val createResourceByUserUseCase: CreateResourceByUserUseCase,
     private val updateResourceUseCase: UpdateResourceUseCase,
     private val securityIdentity: SecurityIdentity,
+    private val deleteResourceUseCase: DeleteResourceUseCase,
     userServiceImpl: UserServiceImpl
 ) : UserService by userServiceImpl {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @SecurityRequirements(
+        value = [
+            SecurityRequirement(name = "bearerAuth")
+        ]
+    )
+    @Transactional
     fun getResources(
         @BeanParam @Valid
         pagedRequest: PagedRequest
@@ -45,7 +54,6 @@ class ResourcesResource(
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    @Transactional
     @Operation(
         summary = "Add a new resource",
         operationId = "addResource"
@@ -55,6 +63,7 @@ class ResourcesResource(
             SecurityRequirement(name = "bearerAuth")
         ]
     )
+    @Transactional
     @Authenticated
     fun createResource(resourceDTO: ResourceCreateForm) = withUser(securityIdentity) { user ->
         val result = createResourceByUserUseCase(resourceDTO, user)
@@ -62,17 +71,37 @@ class ResourcesResource(
     }
 
     @PUT
-    @Transactional
     @Produces(MediaType.APPLICATION_JSON)
     @SecurityRequirements(
         value = [
             SecurityRequirement(name = "bearerAuth")
         ]
     )
+    @Transactional
     @Authenticated
     fun update(resourceUpdateForm: ResourceUpdateForm): ResourceShow = withUser(securityIdentity) { user ->
         val result = updateResourceUseCase(resourceUpdateForm, user)
         result.getOrNull() ?: throw result.exceptionOrNull() ?: throw BadRequestException("update failed")
+    }
+
+
+    @DELETE
+    @SecurityRequirements(
+        value = [
+            SecurityRequirement(name = "bearerAuth")
+        ]
+    )
+    @Transactional
+    @Authenticated
+    @Produces(MediaType.TEXT_PLAIN)
+    fun delete(resourceDeleteForm: ResourceDeleteForm) {
+        withUser(securityIdentity) { user ->
+            try {
+                deleteResourceUseCase(resourceDeleteForm, user)
+            }catch (e: Exception) {
+                throw BadRequestException(e.message ?: "delete failed")
+            }
+        }
     }
 
 

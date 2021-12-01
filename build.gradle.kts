@@ -73,6 +73,7 @@ allOpen {
     annotation("io.quarkus.test.junit.QuarkusTest")
     annotation("javax.persistence.Entity")
     annotation("javax.persistence.MappedSuperclass")
+    annotation("javax.persistence.Embeddable")
 
 }
 
@@ -85,4 +86,10 @@ configure<NoArgExtension> {
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = JavaVersion.VERSION_11.toString()
     kotlinOptions.javaParameters = true
+}
+
+task("example"){
+    doLast {
+
+    }
 }

@@ -2,13 +2,17 @@ package de.ma.ikarus.persistence.resources
 
 import de.ma.ikarus.domain.resource.ResourceGateway
 import de.ma.ikarus.persistence.shared.data.ResourceCreateDTO
+import de.ma.ikarus.persistence.shared.data.ResourceDeleteDTO
 import de.ma.ikarus.persistence.shared.data.ResourceUpdateDTO
+import de.ma.ikarus.persistence.shared.toResourceDelete
+import de.ma.ikarus.persistence.shared.toResourceShow
 import de.ma.ikarus.persistence.utils.AbstractDatabaseTest
 import de.ma.ikarus.shared.PagedParams
+import org.amshove.kluent.`should be`
+import org.amshove.kluent.`should not be`
 import org.amshove.kluent.shouldBe
-import org.junit.jupiter.api.Test
-
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import javax.inject.Inject
 import javax.persistence.EntityManager
 import javax.persistence.PersistenceUnit
@@ -84,4 +88,15 @@ class ResourceGatewayImplTest : AbstractDatabaseTest() {
         result.content shouldBe newContent
 
     }
+
+    @Test
+    fun `try to to delete a resource`() = withResource {
+        resourceRepository.findById(it.id!!) `should not be` null
+
+        resourceGateway.deleteResource(it.toResourceDelete())
+
+        resourceRepository.findById(it.id!!) `should be` null
+    }
+
+
 }

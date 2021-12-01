@@ -1,8 +1,10 @@
 package de.ma.ikarus.persistence.utils
 
 import de.ma.ikarus.domain.resource.Resource
+import de.ma.ikarus.domain.shared.NanoId
 import de.ma.ikarus.domain.user.User
 import de.ma.ikarus.persistence.resources.ResourceEntity
+import de.ma.ikarus.persistence.shared.nanoid.NanoIdEntity
 import de.ma.ikarus.persistence.user.UserEntity
 import io.github.serpro69.kfaker.Faker
 import io.quarkus.test.common.QuarkusTestResource
@@ -54,13 +56,13 @@ abstract class AbstractDatabaseTest {
     }
 
     @Transactional
-    fun withResource(block: (Resource) -> Unit) {
+    fun withResource(block: (Resource<NanoIdEntity>) -> Unit) {
         val resource = resourceEntity()
         entityManager.persist(resource)
         block(resource)
     }
 
 
-    class UserWithResources(val user: User, val resources: List<Resource>)
+    class UserWithResources(val user: User, val resources: List<Resource<NanoIdEntity>>)
 
 }

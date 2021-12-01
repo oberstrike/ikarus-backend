@@ -49,10 +49,7 @@ class Main {
                 bearerFormat = "JWT"
             )
         ]
-    ),
-    security = [
-        SecurityRequirement(name = "bearerAuth", scopes = [])
-    ]
+    )
 )
 open class ResourceApplication : QuarkusApplication, Application() {
 

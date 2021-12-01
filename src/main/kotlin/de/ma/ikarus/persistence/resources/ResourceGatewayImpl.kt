@@ -1,9 +1,7 @@
 package de.ma.ikarus.persistence.resources
 
-import de.ma.ikarus.domain.resource.ResourceCreate
-import de.ma.ikarus.domain.resource.ResourceGateway
-import de.ma.ikarus.domain.resource.ResourceShow
-import de.ma.ikarus.domain.resource.ResourceUpdate
+import de.ma.ikarus.domain.resource.*
+import de.ma.ikarus.domain.shared.NanoId
 import de.ma.ikarus.domain.shared.Sort
 import de.ma.ikarus.domain.user.User
 import de.ma.ikarus.persistence.shared.PersistenceException
@@ -53,6 +51,15 @@ class ResourceGatewayImpl(
 
         saved.persist()
         return saved.toResourceShow()
+    }
+
+    override fun getResourceById(id: NanoId): ResourceShow? {
+        return resourceRepository.findById(id)?.toResourceShow()
+    }
+
+    override fun deleteResource(resource: ResourceDelete) {
+        resourceRepository.delete( resourceRepository.findById(resource.id) ?: throw PersistenceException("Resource not found"))
+
     }
 
 }

@@ -1,5 +1,6 @@
 package de.ma.ikarus.domain.resource
 
+import de.ma.ikarus.domain.shared.NanoId
 import de.ma.ikarus.shared.PagedParams
 import de.ma.ikarus.domain.shared.Sort
 import de.ma.ikarus.domain.user.User
@@ -22,5 +23,9 @@ interface ResourceGateway {
     ): PagedList<ResourceShow>
 
     fun update(resource: ResourceUpdate): ResourceShow
+
+    fun getResourceById(id: NanoId): ResourceShow?
+
+    fun deleteResource(resource: ResourceDelete)
 
 }
