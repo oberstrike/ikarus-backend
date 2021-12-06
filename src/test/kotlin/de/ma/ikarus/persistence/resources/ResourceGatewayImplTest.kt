@@ -78,7 +78,7 @@ class ResourceGatewayImplTest : AbstractDatabaseTest() {
         val result = resourceGateway.update(
             ResourceUpdateDTO(
                 it.version,
-                it.id!!,
+                it.id!!.nanoId,
                 newContent,
                 newName
             )

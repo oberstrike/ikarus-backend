@@ -1,11 +1,11 @@
 package de.ma.ikarus.domain.user
 
-import de.ma.ikarus.domain.resource.Resource
 import de.ma.ikarus.domain.resource.ResourceDelete
 import de.ma.ikarus.domain.resource.ResourceShow
-import de.ma.ikarus.domain.shared.NanoId
 
 interface UserGateway {
+
+    fun getAllUsers(): List<User>
 
     fun addResourceToUser(user: User, resource: ResourceShow): ResourceShow
 
@@ -16,4 +16,7 @@ interface UserGateway {
     fun isAllowedToUpdate(user: User, resource: ResourceDelete): Boolean
 
     fun removeResourceFromUser(user: User, resource: ResourceDelete)
+
+    fun remove(user: User)
+
 }

@@ -7,12 +7,12 @@ import javax.persistence.Converter
 @Converter(autoApply = true)
 class NanoIdConverter : AttributeConverter<NanoId, String> {
 
-    override fun convertToEntityAttribute(dbData: String?): NanoId {
-        TODO("Not yet implemented")
+    override fun convertToEntityAttribute(dbData: String): NanoId {
+        return NanoIdEntity(dbData)
     }
 
     override fun convertToDatabaseColumn(attribute: NanoId?): String {
-        TODO("Not yet implemented")
+        return attribute?.nanoId ?: ""
     }
 
 }

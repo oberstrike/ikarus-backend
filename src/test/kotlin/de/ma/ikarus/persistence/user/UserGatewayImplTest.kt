@@ -29,7 +29,7 @@ class UserGatewayImplTest : AbstractDatabaseTest() {
         val allowedToUpdate = userGateway.isAllowedToUpdate(
             user, ResourceUpdateDTO(
                 resourceEntity.version,
-                resourceEntity.id!!,
+                resourceEntity.id!!.nanoId,
                 resourceEntity.content,
                 resourceEntity.name
             )
@@ -44,7 +44,7 @@ class UserGatewayImplTest : AbstractDatabaseTest() {
             val allowedToUpdate = userGateway.isAllowedToUpdate(
                 user, ResourceUpdateDTO(
                     resourceEntity.version,
-                    resourceEntity.id!!,
+                    resourceEntity.id!!.nanoId,
                     resourceEntity.content,
                     resourceEntity.name
                 )

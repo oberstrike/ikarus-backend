@@ -4,6 +4,7 @@ import de.ma.ikarus.domain.resource.*
 import de.ma.ikarus.domain.shared.NanoId
 import de.ma.ikarus.domain.shared.Sort
 import de.ma.ikarus.domain.user.User
+import de.ma.ikarus.impl.shared.toNanoId
 import de.ma.ikarus.persistence.shared.PersistenceException
 import de.ma.ikarus.persistence.shared.createToEntity
 import de.ma.ikarus.persistence.shared.toPagedList
@@ -37,7 +38,8 @@ class ResourceGatewayImpl(
 
     override fun update(resource: ResourceUpdate): ResourceShow {
 
-        val saved = resourceRepository.findById(resource.id) ?: throw PersistenceException("Resource not found")
+        val saved = resourceRepository.findById(resource.id.toNanoId())
+            ?: throw PersistenceException("Resource not found")
 
         if (resource.version != saved.version) {
             throw PersistenceException("Resource version mismatch")
@@ -58,7 +60,7 @@ class ResourceGatewayImpl(
     }
 
     override fun deleteResource(resource: ResourceDelete) {
-        resourceRepository.delete( resourceRepository.findById(resource.id) ?: throw PersistenceException("Resource not found"))
+        resourceRepository.delete( resourceRepository.findById(resource.id.toNanoId()) ?: throw PersistenceException("Resource not found"))
 
     }
 

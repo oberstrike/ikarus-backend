@@ -5,6 +5,7 @@ import de.ma.ikarus.persistence.shared.data.ResourceShowDTO
 import de.ma.ikarus.domain.resource.ResourceCreate
 import de.ma.ikarus.domain.resource.ResourceShow
 import de.ma.ikarus.persistence.resources.ResourceEntity
+import de.ma.ikarus.persistence.shared.data.NanoIdDTO
 import de.ma.ikarus.persistence.shared.data.ResourceDeleteDTO
 import de.ma.ikarus.persistence.shared.nanoid.NanoIdEntity
 
@@ -27,20 +28,20 @@ fun ResourceCreate.createToEntity(): ResourceEntity {
 
 fun ResourceShow.showToEntity(): ResourceEntity {
     val target = ResourceEntity()
-    target.id = NanoIdEntity(id.nanoId)
+    target.id = NanoIdEntity(id)
     target.name = name
     target.content = content
     return target
 }
 
-fun Resource<*>.toResourceShow() = ResourceShowDTO(
+fun Resource<NanoIdEntity>.toResourceShow() = ResourceShowDTO(
     content = content,
     name = name,
     version = version,
-    id = id!!
+    id = id!!.nanoId
 )
 
-fun Resource<*>.toResourceDelete() = ResourceDeleteDTO(
-    id = id!!,
+fun Resource<NanoIdEntity>.toResourceDelete() = ResourceDeleteDTO(
+    id = id!!.nanoId,
     version = version
 )

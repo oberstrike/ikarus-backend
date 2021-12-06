@@ -6,9 +6,6 @@ import de.ma.ikarus.domain.shared.NanoId
 import de.ma.ikarus.domain.user.User
 import de.ma.ikarus.persistence.shared.data.*
 import io.github.serpro69.kfaker.Faker
-import io.github.serpro69.kfaker.FakerConfig
-import io.github.serpro69.kfaker.provider.RandomProviderConfig
-import org.jetbrains.kotlin.konan.properties.loadProperties
 
 
 val faker = Faker()
@@ -17,7 +14,7 @@ fun resourceDelete(id: NanoId? = null, version: Int? = null): ResourceDelete {
     return faker.randomProvider.randomClassInstance<ResourceDeleteDTO> {
         typeGenerator<NanoId> { NanoIdDTO(NanoIdUtils.randomNanoId()) }
     }.let {
-        it.copy(id = id ?: it.id, version = version ?: it.version)
+        it.copy(id = id?.nanoId ?: it.id, version = version ?: it.version)
     }
 }
 
@@ -36,10 +33,8 @@ fun resourceCreate(content: String? = null): ResourceCreate {
 }
 
 fun resourceShow(content: String? = null, id: NanoId? = null, version: Int? = null): ResourceShow {
-    return faker.randomProvider.randomClassInstance<ResourceShowDTO>() {
-        typeGenerator<NanoId> { NanoIdDTO(NanoIdUtils.randomNanoId()) }
-    }.let {
-        it.copy(content = content ?: it.content, id = id ?: it.id, version = version ?: it.version)
+    return faker.randomProvider.randomClassInstance<ResourceShowDTO>().let {
+        it.copy(content = content ?: it.content, id = id?.nanoId ?: it.id, version = version ?: it.version)
     }
 }
 

@@ -5,6 +5,7 @@ import de.ma.ikarus.domain.user.UserGateway
 import de.ma.ikarus.impl.shared.NotAllowedToUpdateException
 import de.ma.ikarus.impl.shared.OptimisticLockException
 import de.ma.ikarus.impl.shared.ResourceNotFoundException
+import de.ma.ikarus.impl.shared.toNanoId
 import de.ma.ikarus.impl.utils.resourceDelete
 import de.ma.ikarus.impl.utils.resourceShow
 import de.ma.ikarus.impl.utils.user
@@ -40,11 +41,11 @@ class DeleteResourceUseCaseImplTest {
     fun `test if deleteResourceUseCase throws an exception when the versions differ`() {
         val resourceDelete = resourceDelete(version = 1)
 
-        every { resourceGateway.getResourceById(resourceDelete.id) } returns resourceShow(version = 0)
+        every { resourceGateway.getResourceById(resourceDelete.id.toNanoId()) } returns resourceShow(version = 0)
 
         invoking { deleteResourceUseCase(resourceDelete, user()) } `should throw` OptimisticLockException::class
 
-        verify { resourceGateway.getResourceById(resourceDelete.id) }
+        verify { resourceGateway.getResourceById(resourceDelete.id.toNanoId()) }
 
     }
 
@@ -52,12 +53,12 @@ class DeleteResourceUseCaseImplTest {
     @Test
     fun `tests if deleteResourceUseCase throws an exception when the user is now allowed`() {
         val resourceDelete = resourceDelete()
-        val resourceShow = resourceShow(id = resourceDelete.id, version = resourceDelete.version)
+        val resourceShow = resourceShow(id = resourceDelete.id.toNanoId(), version = resourceDelete.version)
 
         val user = user()
 
         //resourceGateway#getResourceById returns a resource
-        every { resourceGateway.getResourceById(resourceDelete.id) } returns resourceShow
+        every { resourceGateway.getResourceById(resourceDelete.id.toNanoId()) } returns resourceShow
 
         //userGateway#isAllowedToUpdate returns false
         every { userGateway.isAllowedToUpdate(user, resourceDelete) } returns false
@@ -69,7 +70,7 @@ class DeleteResourceUseCaseImplTest {
             )
         } `should throw` NotAllowedToUpdateException::class
 
-        verify(exactly = 1) { resourceGateway.getResourceById(resourceDelete.id) }
+        verify(exactly = 1) { resourceGateway.getResourceById(resourceDelete.id.toNanoId()) }
 
         verify(exactly = 1) { userGateway.isAllowedToUpdate(user, resourceDelete) }
 
@@ -82,7 +83,7 @@ class DeleteResourceUseCaseImplTest {
 
         every { userGateway.isAllowedToUpdate(user, resourceDelete) } returns true
 
-        every{ resourceGateway.getResourceById(resourceDelete.id) } returns resourceShow(version = resourceDelete.version)
+        every{ resourceGateway.getResourceById(resourceDelete.id.toNanoId()) } returns resourceShow(version = resourceDelete.version)
 
         every { userGateway.removeResourceFromUser(user, resourceDelete) } returns Unit
 
@@ -92,7 +93,7 @@ class DeleteResourceUseCaseImplTest {
 
         verify(exactly = 1) { userGateway.isAllowedToUpdate(user, resourceDelete) }
 
-        verify(exactly = 1) { resourceGateway.getResourceById(resourceDelete.id) }
+        verify(exactly = 1) { resourceGateway.getResourceById(resourceDelete.id.toNanoId()) }
 
         verify(exactly = 1) { userGateway.removeResourceFromUser(user, resourceDelete) }
 
@@ -105,7 +106,7 @@ class DeleteResourceUseCaseImplTest {
         val user = user()
 
 
-        every { resourceGateway.getResourceById(resourceDelete.id) } throws ResourceNotFoundException(resourceDelete.id.nanoId)
+        every { resourceGateway.getResourceById(resourceDelete.id.toNanoId()) } throws ResourceNotFoundException(resourceDelete.id)
 
         invoking {
             deleteResourceUseCase.invoke(
@@ -115,7 +116,7 @@ class DeleteResourceUseCaseImplTest {
         } `should throw` ResourceNotFoundException::class
 
 
-        verify(exactly = 1) { resourceGateway.getResourceById(resourceDelete.id) }
+        verify(exactly = 1) { resourceGateway.getResourceById(resourceDelete.id.toNanoId()) }
     }
 
 

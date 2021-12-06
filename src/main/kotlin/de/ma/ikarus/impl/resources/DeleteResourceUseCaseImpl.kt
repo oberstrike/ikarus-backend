@@ -8,6 +8,7 @@ import de.ma.ikarus.domain.user.UserGateway
 import de.ma.ikarus.impl.shared.NotAllowedToUpdateException
 import de.ma.ikarus.impl.shared.OptimisticLockException
 import de.ma.ikarus.impl.shared.ResourceNotFoundException
+import de.ma.ikarus.impl.shared.toNanoId
 import javax.enterprise.context.ApplicationScoped
 
 @ApplicationScoped
@@ -18,10 +19,10 @@ class DeleteResourceUseCaseImpl(
 
     override fun invoke(resource: ResourceDelete, user: User) {
         //get the persisted resource
-        val persistedResourceUseCase = resourceGateway.getResourceById(resource.id)
+        val persistedResourceUseCase = resourceGateway.getResourceById(resource.id.toNanoId())
 
         //if the resource is not found, throw exception
-        persistedResourceUseCase?: throw ResourceNotFoundException(resource.id.nanoId)
+        persistedResourceUseCase?: throw ResourceNotFoundException(resource.id)
 
         //if the version are different, throw an OptimisticLockException{@link OptimisticLockException}
         if(persistedResourceUseCase.version != resource.version) throw OptimisticLockException()
@@ -29,7 +30,7 @@ class DeleteResourceUseCaseImpl(
 
         //if the user is not allowed to update the resource, throw exception
         val allowedToUpdate = userGateway.isAllowedToUpdate(user, resource)
-        if (!allowedToUpdate) throw NotAllowedToUpdateException(user.userId, resource.id.nanoId)
+        if (!allowedToUpdate) throw NotAllowedToUpdateException(user.userId, resource.id)
 
         //remove the resource from the user
         userGateway.removeResourceFromUser(user, resource)

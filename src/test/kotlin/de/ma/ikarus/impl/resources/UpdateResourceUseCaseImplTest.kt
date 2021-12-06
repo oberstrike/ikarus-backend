@@ -68,14 +68,14 @@ class UpdateResourceUseCaseImplTest {
         every { userGateway.isAllowedToUpdate(user, resourceUpdate) } returns true
 
         //every resourceGateway#update will throw an exception
-        every { resourceGateway.update(resourceUpdate) } throws Exception("test")
+        every { resourceGateway.update(resourceUpdate) } throws Exception("test.xml")
 
         val result = updateResourceUseCase.invoke(resourceUpdate, user)
 
         result.isSuccess shouldBe false
         result.getOrNull() shouldBe null
         result.exceptionOrNull() `should not be equal to` null
-        result.exceptionOrNull()?.message shouldBe "test"
+        result.exceptionOrNull()?.message shouldBe "test.xml"
 
     }
 

@@ -1,5 +1,5 @@
 package de.ma.ikarus.domain.shared
 
-interface HasId {
-    val id: NanoId
+interface HasId<T> {
+    val id: T
 }

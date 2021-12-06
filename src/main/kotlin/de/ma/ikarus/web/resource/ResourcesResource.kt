@@ -43,7 +43,6 @@ class ResourcesResource(
             SecurityRequirement(name = "bearerAuth")
         ]
     )
-    @Transactional
     fun getResources(
         @BeanParam @Valid
         pagedRequest: PagedRequest

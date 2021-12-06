@@ -52,6 +52,7 @@ abstract class AbstractDatabaseTest {
 
         resources.forEach(user::addResource)
         entityManager.persist(user)
+        entityManager.flush()
         block(user)
     }
 

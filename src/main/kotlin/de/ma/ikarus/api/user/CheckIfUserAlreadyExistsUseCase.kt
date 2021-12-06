@@ -1,5 +1,5 @@
 package de.ma.ikarus.api.user
 
-fun interface CheckIfUserExistsUseCase {
+fun interface CheckIfUserAlreadyExistsUseCase {
     operator fun invoke(userId: String): Boolean
 }

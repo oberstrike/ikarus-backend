@@ -8,7 +8,7 @@ data class ResourceUpdateDTO(
     @NotNull
     override val version: Int,
     @NotNull
-    override val id: NanoId,
+    override val id: String,
     @NotNull
     override val content: String,
     @NotNull

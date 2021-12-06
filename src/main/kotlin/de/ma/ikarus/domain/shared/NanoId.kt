@@ -1,5 +1,7 @@
 package de.ma.ikarus.domain.shared
 
-interface NanoId {
+import java.io.Serializable
+
+interface NanoId : Serializable{
     val nanoId: String
 }

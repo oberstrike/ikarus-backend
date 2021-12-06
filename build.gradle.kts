@@ -17,7 +17,7 @@ val quarkusPlatformGroupId: String by project
 val quarkusPlatformArtifactId: String by project
 val quarkusPlatformVersion: String by project
 val mockkVersion = "1.12.1"
-val junitJupiterVersion = "5.8.1"
+val junitJupiterVersion = "5.4.2"
 val kluentVersion = "1.68"
 val testcontainersVersion = "1.16.2"
 val kotlinFakerVersion = "1.9.0"
@@ -37,17 +37,26 @@ dependencies {
     implementation("io.quarkus:quarkus-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("io.quarkus:quarkus-arc")
+    implementation("io.quarkus:quarkus-scheduler")
+    implementation("io.quarkus:quarkus-keycloak-admin-client")
+
     testImplementation("io.quarkus:quarkus-junit5")
     testImplementation("io.rest-assured:rest-assured")
 
     //other dependencies
     implementation("org.jetbrains.kotlin:kotlin-noarg:$kotlinVersion")
     implementation("com.aventrix.jnanoid:jnanoid:$jnanoid")
+    implementation ("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.0")
+    testImplementation("io.quarkus:quarkus-test-security-oidc")
 
 
+    // https://mvnrepository.com/artifact/io.rest-assured/kotlin-extensions
+    testImplementation("io.rest-assured:kotlin-extensions:4.4.0")
 
     //test dependencies
     testImplementation("io.mockk:mockk:$mockkVersion")
+    testImplementation("io.quarkiverse.mockk:quarkus-junit5-mockk:0.2.0")
+    testImplementation("io.quarkus:quarkus-test-keycloak-server")
     testImplementation("org.amshove.kluent:kluent:$kluentVersion")
     testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiterVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
@@ -57,6 +66,8 @@ dependencies {
     testImplementation("org.testcontainers:junit-jupiter:$testcontainersVersion")
     testImplementation("org.testcontainers:postgresql:$testcontainersVersion")
     testImplementation("io.github.serpro69:kotlin-faker:$kotlinFakerVersion")
+    testImplementation("com.github.dasniko:testcontainers-keycloak:1.8.1")
+
 
 }
 group = "de.ma.ikarus"
@@ -88,7 +99,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.javaParameters = true
 }
 
-task("example"){
+task("example") {
     doLast {
 
     }
