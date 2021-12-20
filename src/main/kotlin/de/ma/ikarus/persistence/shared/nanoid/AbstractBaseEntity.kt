@@ -2,10 +2,7 @@ package de.ma.ikarus.persistence.shared.nanoid
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase
 import org.hibernate.annotations.GenericGenerator
-import javax.persistence.Column
-import javax.persistence.EmbeddedId
-import javax.persistence.GeneratedValue
-import javax.persistence.MappedSuperclass
+import javax.persistence.*
 
 
 @MappedSuperclass

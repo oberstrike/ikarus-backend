@@ -8,14 +8,13 @@ class KeycloakContainerCreator : IContainerCreator<KeycloakContainer> {
     companion object {
         const val CLIENT_ID = "backend-service"
         const val CLIENT_SECRET = "secret"
-        const val AUTH_SERVER_HOST = "localhost"
         const val ADMIN_USERNAME = "admin"
         const val ADMIN_PASSWORD = "admin"
         const val REALM_IMPORT_FILE = "/testdata/realm-export.json"
         var port = 8182
         const val IMAGE_NAME = "quay.io/keycloak/keycloak:latest"
         const val REALM_NAME = "ikarus"
-        var serverURL = "http://$AUTH_SERVER_HOST:$port/auth"
+        var serverURL = ""
     }
 
 

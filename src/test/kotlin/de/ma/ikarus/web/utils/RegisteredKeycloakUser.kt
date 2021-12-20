@@ -1,5 +1,8 @@
 package de.ma.ikarus.web.utils
 
+import de.ma.ikarus.domain.user.User
+import de.ma.ikarus.web.user.UserForm
+
 data class RegisteredKeycloakUser(
     val username: String,
     val password: String,
@@ -10,7 +13,7 @@ object KeycloakAccountManager {
 
     val registeredUsers = mutableListOf(
         RegisteredKeycloakUser("user", "user", "user"),
-        RegisteredKeycloakUser("user2", "user", "user")
+        RegisteredKeycloakUser("user2", "mewtu123", "user")
     )
 
     operator fun get(id: Int): RegisteredKeycloakUser {

@@ -16,6 +16,6 @@ class KeycloakGatewayImplTest {
 
     @Test
     fun getUsers() {
-        keycloakGateway.getUsers()
+
     }
 }

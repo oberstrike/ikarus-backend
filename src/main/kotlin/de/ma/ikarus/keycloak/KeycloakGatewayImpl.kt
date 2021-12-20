@@ -34,10 +34,17 @@ class KeycloakGatewayImpl(
         .build()
 
     override fun getUsers(): List<KeycloakUser> {
-        return keycloak.realm("master").users().list().map { it.toKeycloakUser() }
+        val clients = keycloak.realm("ikarus").clients().findAll()
+
+        return keycloak.realm("ikarus").users().list()
+            .filter {   it?.clientRoles?.contains("user") ?: true }
+            .map { it.toKeycloakUser() }
     }
 
 }
+
+
+
 
 fun UserRepresentation.toKeycloakUser(): KeycloakUser {
     return KeycloakUserDTO(this.id)

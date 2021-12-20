@@ -29,8 +29,10 @@ class UserMonitorCronJob(
             return
         }
 
+        LOGGER.info("There are ${localUsers.size} local users")
         val keycloakUsers = getAllKeycloakUserUseCase()
 
+        LOGGER.info("There are ${keycloakUsers.size} keycloak users")
         for (localUser in localUsers) {
             val targetUserId = localUser.userId
             if (!keycloakUsers.map { it.userId}.contains(localUser.userId)) {
@@ -41,6 +43,12 @@ class UserMonitorCronJob(
                     LOGGER.error(removed.exceptionOrNull()?.message ?: "No error message")
                     continue
                 }
+
+                if(!removed.getOrNull()!!){
+                    LOGGER.info("Could not remove user: $targetUserId")
+                    continue
+                }
+
                 LOGGER.info("Removed user: $targetUserId")
             }
         }

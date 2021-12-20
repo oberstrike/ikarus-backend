@@ -1,15 +1,12 @@
 package de.ma.ikarus.persistence.user
 
-import de.ma.ikarus.domain.resource.Resource
 import de.ma.ikarus.domain.resource.ResourceDelete
 import de.ma.ikarus.domain.resource.ResourceShow
-import de.ma.ikarus.domain.shared.NanoId
 import de.ma.ikarus.domain.user.User
 import de.ma.ikarus.domain.user.UserGateway
 import de.ma.ikarus.impl.shared.toNanoId
 import de.ma.ikarus.persistence.resources.ResourceRepository
 import de.ma.ikarus.persistence.shared.PersistenceException
-import de.ma.ikarus.persistence.shared.data.NanoIdDTO
 import de.ma.ikarus.persistence.shared.nanoid.NanoIdEntity
 import de.ma.ikarus.persistence.shared.toResourceShow
 import java.time.LocalDateTime
@@ -59,7 +56,8 @@ class UserGatewayImpl(
     }
 
     override fun remove(user: User) {
-        userRepository.deleteById(NanoIdEntity(user.userId))
+
+        userRepository.deleteByUserId(user.userId)
     }
 
     override fun getAllUsers(): List<User> {

@@ -39,6 +39,8 @@ dependencies {
     implementation("io.quarkus:quarkus-arc")
     implementation("io.quarkus:quarkus-scheduler")
     implementation("io.quarkus:quarkus-keycloak-admin-client")
+    implementation("io.quarkus:quarkus-resteasy-multipart")
+    implementation("io.quarkus:quarkus-rest-client")
 
     testImplementation("io.quarkus:quarkus-junit5")
     testImplementation("io.rest-assured:rest-assured")
@@ -46,9 +48,11 @@ dependencies {
     //other dependencies
     implementation("org.jetbrains.kotlin:kotlin-noarg:$kotlinVersion")
     implementation("com.aventrix.jnanoid:jnanoid:$jnanoid")
-    implementation ("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.0")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.0")
     testImplementation("io.quarkus:quarkus-test-security-oidc")
 
+    // https://mvnrepository.com/artifact/commons-io/commons-io
+    implementation("commons-io:commons-io:2.11.0")
 
     // https://mvnrepository.com/artifact/io.rest-assured/kotlin-extensions
     testImplementation("io.rest-assured:kotlin-extensions:4.4.0")

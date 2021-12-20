@@ -60,7 +60,7 @@ fun Keycloak.addUser(user: RegisteredKeycloakUser) {
 
     val userRepresentation = UserRepresentation()
     userRepresentation.username = user.username
-    userRepresentation.email = "random.$username@gmx.de"
+    userRepresentation.email = "random.${user.username}@gmx.de"
     userRepresentation.isEmailVerified = false
     userRepresentation.isEnabled = true
 
@@ -73,7 +73,7 @@ fun Keycloak.addUser(user: RegisteredKeycloakUser) {
     val response = usersResource.create(userRepresentation)
 
     if (response.status != 201) {
-        throw RuntimeException("Could not create user ${user.username}")
+        throw RuntimeException("Could not create user ${user.username} -  error message: ${response.readEntity(String::class.java)}")
     }
 
     val userId = response.location.path.split("/").last()

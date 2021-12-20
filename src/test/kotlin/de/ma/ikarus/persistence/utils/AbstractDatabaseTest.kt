@@ -1,7 +1,6 @@
 package de.ma.ikarus.persistence.utils
 
 import de.ma.ikarus.domain.resource.Resource
-import de.ma.ikarus.domain.shared.NanoId
 import de.ma.ikarus.domain.user.User
 import de.ma.ikarus.persistence.resources.ResourceEntity
 import de.ma.ikarus.persistence.shared.nanoid.NanoIdEntity
